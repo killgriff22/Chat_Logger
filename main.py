@@ -34,7 +34,7 @@ async def check_command(message):
 
 @client.event
 async def on_message(message):
-    # write_log(message.guild.id, message.channel.id, message)
+    write_log(message.guild.id, message.channel.id, message)
     await check_command(message)
 
 client.run(TOKEN)
