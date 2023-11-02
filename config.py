@@ -2,7 +2,7 @@ import discord
 import os
 import datetime
 client = discord.Client()
-TOKEN = "OTc2NTEyNjc0ODA2NTAxMzk3.GacmJv.AHgHT3BjmimpY3yZpxSLRtCJFoiowKV7gNqHkE"
+TOKEN = ""
 
 
 class guilds:
