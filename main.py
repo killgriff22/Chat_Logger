@@ -41,7 +41,7 @@ async def check_command(message):
             await set_status(message)
         case "#!anim":
             animations = {
-                "cars": [
+                "hearts": [
                     "❤🩷🧡💛💚💙🩵",
                     "🩷🧡💛💚💙🩵❤",
                     "🧡💛💚💙🩵❤🩷",
@@ -49,14 +49,16 @@ async def check_command(message):
                     "💚💙🩵❤🩷🧡💛",
                     "💙🩵❤🩷🧡💛💚",
                     "🩵❤🩷🧡💛💚💙"
-                ]
+                ],
             }
-            if not animate_flag.is_set():
-                animate_flag.set()
-                asyncio.run(animate_status(
-                    animations[message.content.split(" ")[1]]))
-            else:
-                animate_flag.clear()
+            if message.content.split(" ")[1] in animations.keys():
+                await (animate_status(
+                    animations[message.content.split(" ")[1]],
+                    message.content.split(" ")[2] if len(
+                        message.content.split(" ")) == 3 else 5
+                ))
+            elif message.content.split(" ")[1] == "time":
+                await animate_time_status()
 
 
 async def set_status(message):
@@ -80,17 +82,31 @@ async def set_status(message):
             await client.change_presence(activity=discord.Streaming(name=status, url="x-x.ftp.sh"))
 
 
-async def animate_status(animation):
-    while animate_flag.is_set():
-        for status in animation:
-            await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
-            await asyncio.sleep(10)
+async def animate_status(animation, delay=5):
+    for status in animation:
+        await client.change_presence(activity=discord.Game(name=status))
+        print(f"SET: {status}")
+        await asyncio.sleep(int(delay))
+
+
+async def animate_time_status():
+    while True:
+        timethen = datetime.datetime.now().strftime("0")
+        if not int(timethen.split(":")[1]) == int(datetime.datetime.now().strftime("%M")):
+            time = datetime.datetime.now().strftime("%H:%M")
+            time_ = time.split(":")
+            time_[0] = str(int(time_[0])%12)
+            time = f"{time_[0]}:{time_[1]}"
+            await animate_status([
+                time
+            ], 1)
 
 
 @client.event
 async def on_message(message):
     # write_log(message.guild.id, message.channel.id, message)
-    print(message.content)
+    print(
+        f"RECIVE: self {message.content}") if message.author == client.user else 'Unimportant.'
     await check_command(message)
 
 # asyncio.run(set_status(message_))

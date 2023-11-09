@@ -2,3 +2,4 @@
 guilds/*
 lib/*
 .vscode/*
+token.py
