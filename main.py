@@ -91,12 +91,14 @@ async def animate_status(animation, delay=5):
 
 async def animate_time_status():
     while True:
-        timethen = datetime.datetime.now().strftime("0")
+        timethen = "00:00"
         if not int(timethen.split(":")[1]) == int(datetime.datetime.now().strftime("%M")):
             time = datetime.datetime.now().strftime("%H:%M")
             time_ = time.split(":")
-            time_[0] = str(int(time_[0])%12)
-            time = f"{time_[0]}:{time_[1]}"
+            time__ = time_[:]
+            time__[0] = str(int(time_[0]) % 12) if not str(
+                int(time_[0]) % 12) == "0" else "12"
+            time = f"{time__[0]}:{time_[1]} {'AM' if int(time_[0]) < 12 else 'PM'}"
             await animate_status([
                 time
             ], 1)
@@ -104,10 +106,9 @@ async def animate_time_status():
 
 @client.event
 async def on_message(message):
-    # write_log(message.guild.id, message.channel.id, message)
+    write_log(message.guild.id, message.channel.id, message)
     print(
-        f"RECIVE: self {message.content}") if message.author == client.user else 'Unimportant.'
+        f"RECIVE: {message.content}") if message.author == client.user else 'Unimportant.'
     await check_command(message)
 
-# asyncio.run(set_status(message_))
 client.run(TOKEN)
