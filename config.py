@@ -3,7 +3,6 @@ import os
 import datetime
 import re
 client = discord.Client()
-TOKEN = 
 
 
 class guilds:
@@ -23,12 +22,12 @@ class guilds:
 class channels:
     def fetch_channel(gid, id, name="", gname=None):
         if str(id) in guilds.fetch_guild(gid, gname if gname else None):
-            return os.listdir(f"guilds/{gid}/{str(id)}").remove("name") if not os.listdir(f"guilds/{gid}/{str(id)}").remove("name") == None else []
+            return os.listdir(f"guilds/{gid}/{str(id)}") if not os.listdir(f"guilds/{gid}/{str(id)}").remove("name") == None else []
         else:
             os.mkdir(f"guilds/{gid}/{str(id)}")
             with open(f"guilds/{gid}/{str(id)}/name", "w") as f:
                 f.write(name)
-            return os.listdir(f"guilds/{gid}/{str(id)}").remove("name") if not os.listdir(f"guilds/{gid}/{str(id)}").remove("name") == None else []
+            return os.listdir(f"guilds/{gid}/{str(id)}") if not os.listdir(f"guilds/{gid}/{str(id)}").remove("name") == None else []
 
     def fetch_channels(gid):
         return os.listdir(f"guilds/{gid}")
