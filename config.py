@@ -3,7 +3,7 @@ import os
 import datetime
 import re
 client = discord.Client()
-from token import *
+from token_ import *
 
 
 class guilds:
