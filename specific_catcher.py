@@ -2,8 +2,6 @@ import datetime
 from config import *
 from specific import pokemon as names
 lastpoke = ""
-shards = int(input("How many shards do you have?"))
-pc = int(input("What is your how many pokecoins do you have?"))
 
 
 @client.event
