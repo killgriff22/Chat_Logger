@@ -6,12 +6,12 @@ lastpoke = ""
 approved_channels = [
     1174005255189569587
 ]
-pokemon = {}
+pokemon_have = {}
 
 
 @client.event
 async def on_message(ctx):
-    global lastmessage, lastpoke, pokemon
+    global lastmessage, lastpoke, pokemon_have
     if not ctx.channel.id in approved_channels:
         return
     print(ctx.content)
@@ -24,10 +24,10 @@ async def on_message(ctx):
                 description = (ctx.embeds[0].description.split("\n"))
                 for item in description:
                     split = item.split("`")[2].split(" ")[1].split("**")[0]
-                    if split in pokemon.keys():
-                        pokemon.update({split: pokemon[split] + 1})
+                    if split in pokemon_have.keys():
+                        pokemon_have.update({split: pokemon_have[split] + 1})
                     else:
-                        pokemon.update({split: 1})
+                        pokemon_have.update({split: 1})
                 # determine page number, and number of pages
                 print(ctx.embeds[0].footer.text)
                 page_count = int(ctx.embeds[0].footer.text.split(
@@ -37,7 +37,7 @@ async def on_message(ctx):
                 if int(str(page_count).split(".")[1]) > 0:
                     page_count = int(str(page_count).split(".")[0])+1
                 print(page)
-                print(pokemon)
+                print(pokemon_have)
                 sleep = 5
                 print(f"sleeping for {sleep} seconds")
                 time.sleep(sleep)
@@ -49,10 +49,10 @@ async def on_message(ctx):
         if "Congratulations" in ctx.content:
             await ctx.channel.send(":3")
             split = ctx.content.split(" ")[7][:-1]
-            if split in pokemon.keys():
-                pokemon.update({split: pokemon[split] + 1})
+            if split in pokemon_have.keys():
+                pokemon_have.update({split: pokemon_have[split] + 1})
             else:
-                pokemon.update({split: 1})
+                pokemon_have.update({split: 1})
         elif "That is the wrong pokémon!" in ctx.content:
             await ctx.channel.send(f"<@716390085896962058> h")
         elif 'The pokémon is' in ctx.content:
