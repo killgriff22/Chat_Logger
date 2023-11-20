@@ -41,6 +41,8 @@ async def on_message(ctx):
                 sleep = 5
                 print(f"sleeping for {sleep} seconds")
                 time.sleep(sleep)
+                if page == page_count:
+                    return
                 await ctx.channel.send(f"<@716390085896962058> p {page+1}")
                 return
             if not "wild" in ctx.embeds[0].title.lower():
